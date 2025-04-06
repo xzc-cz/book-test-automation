@@ -21,9 +21,14 @@ class BookPage:
     def get_all_prices(self):
         return self.driver.find_elements(By.CLASS_NAME, "price_color")
 
-    def click_next_page(self):
-        self.driver.find_element(By.CSS_SELECTOR, "li.next a").click()
-
     def get_all_book_titles(self):
         titles = self.driver.find_elements(By.CSS_SELECTOR, "article.product_pod h3 a")
         return [title.get_attribute("title") for title in titles]
+
+    def click_next_page(self):
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "li.next a"))
+        ).click()
+
+    def is_title_contain(self, text):
+        return text in self.driver.title
